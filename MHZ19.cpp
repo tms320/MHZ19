@@ -132,12 +132,12 @@ bool MHZ19::sendCmd(byte cmd[9])
 
 	_uart->write(cmd, 9);
 	int n = 0;
-	unsigned long startTime = millis();
+	int64_t startTime = (int64_t)millis();
 	do
 	{
 		int m = (int)_uart->readBytes(_response + n, 9 - n);
 		if (m > 0) n += m;
-		if (millis() - startTime >= 100)
+		if ((int64_t)millis() - startTime >= 100)
 		{
 			//Serial.println("MHZ19::sendCmd: Timeout");
 			return false;
