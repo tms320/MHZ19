@@ -38,7 +38,7 @@ bool MHZ19::isReady()
 {
 	if (!_isReady)
 	{
-		if ((_uart != NULL) && (millis() > PREHEAT_TIME))
+		if ((_uart != NULL) && ((int64_t)millis() > PREHEAT_TIME))
 		{
 			_isReady = true;
 		}
@@ -102,11 +102,17 @@ bool MHZ19::calibrateSpanPoint(int span)
 int MHZ19::getCO2()
 {
 	static byte cmdRead[] = { 0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79 };
-	if (isReady() && sendCmd(cmdRead))
+	if (_uart == NULL) return 0;
+	int64_t now = (int64_t)millis();
+	if (now > PREHEAT_TIME)
 	{
-		return (256 * (int)_response[2]) + (int)_response[3];
+		if (sendCmd(cmdRead))
+		{
+			return (256 * (int)_response[2]) + (int)_response[3];
+		}
+		return 0;
 	}
-	return -1;
+	return (int)((now - PREHEAT_TIME) / 1000);
 }
 
 
@@ -131,7 +137,7 @@ bool MHZ19::sendCmd(byte cmd[9])
 	{
 		int m = (int)_uart->readBytes(_response + n, 9 - n);
 		if (m > 0) n += m;
-		if (millis() - startTime >= 500)
+		if (millis() - startTime >= 100)
 		{
 			//Serial.println("MHZ19::sendCmd: Timeout");
 			return false;

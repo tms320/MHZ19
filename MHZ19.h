@@ -19,7 +19,7 @@ public:
 	
 	void setUART(Stream* uart);
 
-	bool isReady();	// preheat time timed out
+	bool isReady();	// returns 'true' when preheat timed out (and uart is not NULL)
 
 	bool setRange2000();
 	bool setRange5000();
@@ -31,10 +31,10 @@ public:
 	bool calibrateZeroPoint();
 	bool calibrateSpanPoint(int span);
 	
-	int getCO2();
+	int getCO2();	// negative value is seconds left to preheat; 0 - error
 
 private:
-	static const int PREHEAT_TIME = 180000; // 3 minutes according to datasheet
+	static const int64_t PREHEAT_TIME = 180000;	// ms (3 minutes according datasheet)
 
 	bool _isReady;
 	Stream* _uart;
