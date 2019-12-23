@@ -1,15 +1,11 @@
 /*
- * Designed to work with Winsen MH-Z19B CO2 sensor
- * - https://www.winsen-sensor.com/products/ndir-co2-sensor/mh-z19b.html
- * According to:
- * - https://www.winsen-sensor.com/d/files/infrared-gas-sensor/mh-z19b-co2-ver1_0.pdf
+ * Library to work with Winsen MH-Z19B CO2 sensor via UART
+ * https://www.winsen-sensor.com/sensors/co2-sensor/mh-z19b.html
  *
- * This library implements methods for working with sensor via UART.
+ * Written by Sergey Trofimov
+ * https://github.com/tms320/MHZ19
  *
- * Written by Kostiantyn Levytskyi <le.konstantos@gmail.com>
- *
- * MIT License
- *
+ * GNU General Public License v3.0
  */
 
 #include <MHZ19.h>
