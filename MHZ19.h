@@ -10,15 +10,15 @@
 #pragma once
 
 #include <Arduino.h>
+#include <SoftwareSerial.h>
 
 class MHZ19
 {
 public:
-	MHZ19();
-	MHZ19(Stream* uart);
+	MHZ19(HardwareSerial &hwSerial);	// use for hardware UART
+	MHZ19(uint8_t rxPin, uint8_t txPin, bool invert = false);	// use for software UART
+	~MHZ19();
 	
-	void setUART(Stream* uart);
-
 	bool isReady();	// returns 'true' when preheat timed out (and uart is not NULL)
 
 	bool setRange2000();
@@ -37,6 +37,8 @@ private:
 	static const int64_t PREHEAT_TIME = 180000;	// ms (3 minutes according datasheet)
 
 	bool _isReady;
+	HardwareSerial* _hwSerial;
+	SoftwareSerial* _swSerial;
 	Stream* _uart;
 	byte _response[9];
 	

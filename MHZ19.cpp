@@ -15,22 +15,28 @@
 #include <MHZ19.h>
 
 
-MHZ19::MHZ19()
+MHZ19::MHZ19(HardwareSerial &hwSerial)
 {
 	_isReady = false;
-	_uart = NULL;
+	_hwSerial = &hwSerial;
+	_swSerial = NULL;
+	_uart = (Stream*)_hwSerial;
 }
 
 
-MHZ19::MHZ19(Stream* uart) : MHZ19()
+MHZ19::MHZ19(uint8_t rxPin, uint8_t txPin, bool invert)
 {
-	_uart = uart;
+	_isReady = false;
+	_hwSerial = NULL;
+	_swSerial = new SoftwareSerial((int8_t)rxPin, (int8_t)txPin, invert);
+	if (_swSerial != NULL) _swSerial->begin(9600, SWSERIAL_8N1);
+	_uart = (Stream*)_swSerial;
 }
 
 
-void MHZ19::setUART(Stream* uart)
+MHZ19::~MHZ19()
 {
-	_uart = uart;
+	if (_swSerial != NULL) delete _swSerial;
 }
 
 
