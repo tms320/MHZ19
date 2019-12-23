@@ -19,7 +19,7 @@ public:
 	MHZ19(uint8_t rxPin, uint8_t txPin, bool invert = false);	// use for software UART
 	~MHZ19();
 	
-	bool isReady();	// returns 'true' when preheat timed out (and uart is not NULL)
+	bool isReady();	// returns 'true' when preheat timed out
 
 	bool setRange2000();
 	bool setRange5000();
