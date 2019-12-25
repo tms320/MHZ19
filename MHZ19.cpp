@@ -144,6 +144,7 @@ bool MHZ19::sendCmd(byte cmd[9])
 			//Serial.println("MHZ19::sendCmd: Timeout");
 			return false;
 		}
+		yield();
 	} while (n < 9);
 	//Serial.print("MHZ19::sendCmd: "); for (int i = 0; i < n; i++) Serial.printf("%02X ", _response[i]); Serial.println();
 	byte crc = calcCRC(_response);
