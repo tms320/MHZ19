@@ -15,10 +15,14 @@
 class MHZ19
 {
 public:
+	MHZ19();
 	MHZ19(HardwareSerial &hwSerial);	// use for hardware UART
 	MHZ19(uint8_t rxPin, uint8_t txPin, bool invert = false);	// use for software UART
 	~MHZ19();
 	
+	bool init(HardwareSerial &hwSerial);	// use for hardware UART
+	bool init(uint8_t rxPin, uint8_t txPin, bool invert = false);	// use for software UART
+
 	bool isReady();	// returns 'true' when preheat timed out
 
 	bool setRange2000();

@@ -11,28 +11,52 @@
 #include <MHZ19.h>
 
 
-MHZ19::MHZ19(HardwareSerial &hwSerial)
-{
-	_isReady = false;
-	_hwSerial = &hwSerial;
-	_swSerial = NULL;
-	_uart = (Stream*)_hwSerial;
-}
-
-
-MHZ19::MHZ19(uint8_t rxPin, uint8_t txPin, bool invert)
+MHZ19::MHZ19()
 {
 	_isReady = false;
 	_hwSerial = NULL;
-	_swSerial = new SoftwareSerial((int8_t)rxPin, (int8_t)txPin, invert);
-	if (_swSerial != NULL) _swSerial->begin(9600, SWSERIAL_8N1);
-	_uart = (Stream*)_swSerial;
+	_swSerial = NULL;
+	_uart = NULL;
+}
+
+
+MHZ19::MHZ19(HardwareSerial &hwSerial) : MHZ19()
+{
+	init(hwSerial);
+}
+
+
+MHZ19::MHZ19(uint8_t rxPin, uint8_t txPin, bool invert) : MHZ19()
+{
+	init(rxPin, txPin, invert);
 }
 
 
 MHZ19::~MHZ19()
 {
 	if (_swSerial != NULL) delete _swSerial;
+}
+
+
+bool MHZ19::init(HardwareSerial &hwSerial)
+{
+	if (_swSerial != NULL) delete _swSerial;
+	_isReady = false;
+	_swSerial = NULL;
+	_hwSerial = &hwSerial;
+	_uart = (Stream*)_hwSerial;
+	return true;
+}
+
+bool MHZ19::init(uint8_t rxPin, uint8_t txPin, bool invert)
+{
+	if (_swSerial != NULL) delete _swSerial;
+	_isReady = false;
+	_hwSerial = NULL;
+	_swSerial = new SoftwareSerial((int8_t)rxPin, (int8_t)txPin, invert);
+	if (_swSerial != NULL) _swSerial->begin(9600, SWSERIAL_8N1);
+	_uart = (Stream*)_swSerial;
+	return _uart != NULL;
 }
 
 
