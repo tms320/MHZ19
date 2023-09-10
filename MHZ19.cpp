@@ -59,6 +59,14 @@ bool MHZ19::init(uint8_t rxPin, uint8_t txPin, bool invert)
 	return _uart != NULL;
 }
 
+void MHZ19::close()
+{
+	if (_swSerial != NULL)
+	{
+		delete _swSerial;
+		_swSerial = NULL;
+	}
+}
 
 bool MHZ19::isReady()
 {

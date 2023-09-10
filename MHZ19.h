@@ -23,6 +23,8 @@ public:
 	bool init(HardwareSerial &hwSerial);	// use for hardware UART
 	bool init(uint8_t rxPin, uint8_t txPin, bool invert = false);	// use for software UART
 
+	void close();
+
 	bool isReady();	// returns 'true' when preheat timed out
 
 	bool setRange2000();
